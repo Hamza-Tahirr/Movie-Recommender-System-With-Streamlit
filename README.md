@@ -50,5 +50,13 @@ In a hybrid recommendation engine, natural language processing tags can be gener
 ### Step 4: Making it on website then
 ### Step 5: Deployment On Heroku.
 
+## Our Page Will Look Like This :
 
+![image](https://user-images.githubusercontent.com/90556877/189056984-88a14357-0841-4445-83d6-a67b5f33d341.png)
+
+### 
+
+## After Recommendations :
+
+![image](https://user-images.githubusercontent.com/90556877/189057250-d10e2b44-f892-4aea-9b6d-aa99a9ee4212.png)
 
