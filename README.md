@@ -58,5 +58,4 @@ In a hybrid recommendation engine, natural language processing tags can be gener
 
 ## After Recommendations :
 
-![image](https://user-images.githubusercontent.com/90556877/189057250-d10e2b44-f892-4aea-9b6d-aa99a9ee4212.png)
-
+![image](https://user-images.githubusercontent.com/90556877/189071544-4adf599f-a0c9-4796-813c-ce0ceb675512.png)
