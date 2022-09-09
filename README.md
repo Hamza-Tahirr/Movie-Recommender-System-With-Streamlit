@@ -1,5 +1,5 @@
-# Movie-Recommender-System-With-Deployment.
-In This Project I am going to build a movie recommendation system project and then build a model and then deploy it on Heroku.
+# Movie-Recommender-System-With-Streamlit.
+In This Project I am going to build a movie recommendation system project and then build a model and then build an app using streamlit.
 
 ## What is a Recommendation System. 
 Recommendation engines are a subclass of machine learning which generally deal with ranking or rating products / users. Loosely defined, a recommender system is a system which predicts ratings a user might give to a specific item.
@@ -47,8 +47,7 @@ In a hybrid recommendation engine, natural language processing tags can be gener
 ### Step 1: Data collection.
 ### Step 2: Preprocessing Our Data.
 ### Step 3: Building Our Model for prediction.
-### Step 4: Making it on website then
-### Step 5: Deployment On Heroku.
+### Step 4: Making it on web app with the help of streamlit
 
 ## Our Page Will Look Like This :
 
