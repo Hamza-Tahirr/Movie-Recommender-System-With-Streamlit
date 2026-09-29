@@ -1,60 +1,92 @@
-# Movie-Recommender-System-With-Streamlit.
-In This Project I am going to build a movie recommendation system project and then build a model and then build an app using streamlit.
+# Movie Recommender System
 
-## What is a Recommendation System. 
-Recommendation engines are a subclass of machine learning which generally deal with ranking or rating products / users. Loosely defined, a recommender system is a system which predicts ratings a user might give to a specific item.
+A content-based movie recommender built on the TMDB 5000 movies dataset. The notebook turns each movie's plot, genres, keywords, cast and director into a text profile and compares movies with cosine similarity. A Streamlit app then lets you pick a movie and shows five similar ones with their posters.
 
-## Who Uses Recommendation System.
-Companies like Amazon, Netflix, Linkedin, and Pandora leverage recommender systems to help users discover new and relevant items (products, videos, jobs, music), creating a delightful user experience while driving incremental revenue.
+## Screenshots
 
-## Types of Recommender System.
-There are three main types of recommendation engines: collaborative filtering, content-based filtering – and a hybrid of the two. 
-Collaborative filtering focuses on collecting and analyzing data on user behavior, activities, and preferences, to predict what a person will like, based on their similarity to other users.
+Movie selection:
 
-## What Are the Types of Recommendation Engines?
+![Movie selection](https://user-images.githubusercontent.com/90556877/189056984-88a14357-0841-4445-83d6-a67b5f33d341.png)
 
-There are three main types of recommendation engines: collaborative filtering, content-based filtering – and a hybrid of the two.
+Recommendations:
 
-### Collaborative filtering
+![Recommendations](https://user-images.githubusercontent.com/90556877/189071544-4adf599f-a0c9-4796-813c-ce0ceb675512.png)
 
-Collaborative filtering focuses on collecting and analyzing data on user behavior, activities, and preferences, to predict what a person will like, based on their similarity to other users.
+## How it works
 
-To plot and calculate these similarities, collaborative filtering uses a matrix style formula. An advantage of collaborative filtering is that it doesn’t need to analyze or understand the content (products, films, books). It simply picks items to recommend based on what they know about the user.
+The notebook (`Movie Recommendation System .ipynb`) does the following:
 
-( In short-- users interest based filtering )
+1. Loads `tmdb_5000_movies.csv` and `tmdb_5000_credits.csv.zip` and merges them on the movie title (4,809 rows).
+2. Keeps only `movie_id`, `title`, `overview`, `genres`, `keywords`, `cast` and `crew`, and drops the 3 movies with no overview, leaving 4,806 movies.
+3. Parses the JSON-style columns with `ast.literal_eval` to get genre names, keywords, the top 3 cast members and the director.
+4. Removes spaces inside names (for example `Sam Worthington` becomes `SamWorthington`) so each person or genre is a single token, then joins everything into one lowercase `tags` string per movie.
+5. Applies Porter stemming from NLTK so words like "loved" and "loving" map to the same token.
+6. Converts the tags into bag-of-words vectors with `CountVectorizer` (5,000 most frequent words, English stop words removed), giving a 4,806 x 5,000 matrix.
+7. Computes the cosine similarity between every pair of movies and recommends the 5 most similar ones.
+8. Saves the processed data (`movie_dict.pkl`, `movies.pkl`) and the similarity matrix (`similarity.pkl`) for the app.
 
-### Content-based filtering
+For example, `recommend('John Carter')` in the notebook returns Riddick, Krrish, The Other Side of Heaven, The Legend of Hercules and Get Carter.
 
-Content-based filtering works on the principle that if you like a particular item, you will also like this other item. To make recommendations, algorithms use a profile of the customer’s preferences and a description of an item (genre, product type, color, word length) to work out the similarity of items using cosine and Euclidean distances.  
+## Web app
 
-The downside of content-based filtering is that the system is limited to recommending products or content similar to what the person is already buying or using. It can’t go beyond this to recommend other types of products or content. For example, it couldn’t recommend products beyond homeware if the customer had only brought homeware.
+`app.py` is a Streamlit app that:
 
-( In short-- content based filtering )
+- lists all 4,806 movies in a dropdown,
+- shows the 5 most similar movies when you click **Recommend**,
+- fetches each recommended movie's poster from the TMDB API.
 
-### Hybrid model
+`similarity.pkl` is about 185 MB, so it is not stored in the repository. If the file is present (for example after running the notebook) the app loads it; otherwise it rebuilds the matrix from the tags in `movie_dict.pkl` on first start and caches it.
 
-A hybrid recommendation engine looks at both the meta (collaborative) data and the transactional (content-based) data. Because of this, it outperforms both.
+Posters need a TMDB API key. Without one, the app still works and shows only the movie titles.
 
-In a hybrid recommendation engine, natural language processing tags can be generated for each product or item (movie, song), and vector equations used to calculate the similarity of products. A collaborative filtering matrix can then be used to recommend items to users depending on their behaviors, activities, and preferences. Netflix is the perfect example of a hybrid recommendation engine. It takes into account both the interests of the user (collaborative) and the descriptions or features of the movie or show (content-based).  
+## Tech stack
 
-( In short-- both content and users interest based filtering )
+Python, pandas, NumPy, NLTK, scikit-learn, Streamlit, Requests, Jupyter Notebook
 
-<b>***IN THIS PROJECT I AM GOING TO USE THE TECHNIQUE OF CONTENT-BASE FILTERING***</b>
+## Project structure
 
+```
+├── Movie Recommendation System .ipynb   # data preparation, vectorization and similarity
+├── app.py                               # Streamlit app
+├── movie_dict.pkl                       # processed movies (id, title, tags) used by the app
+├── movies.pkl                           # the same data saved as a pandas DataFrame
+├── tmdb_5000_movies.csv                 # movie metadata
+├── tmdb_5000_credits.csv.zip            # cast and crew
+├── requirements.txt
+└── .env.example
+```
 
-## Our Project Work Flow :
+## Setup
 
-### Step 1: Data collection.
-### Step 2: Preprocessing Our Data.
-### Step 3: Building Our Model for prediction.
-### Step 4: Making it on web app with the help of streamlit
+```bash
+git clone https://github.com/Hamza-Tahirr/Movie-Recommender-System-With-Streamlit.git
+cd Movie-Recommender-System-With-Streamlit
 
-## Our Page Will Look Like This :
+python -m venv venv
+# Windows: venv\Scripts\activate
+# macOS/Linux: source venv/bin/activate
 
-![image](https://user-images.githubusercontent.com/90556877/189056984-88a14357-0841-4445-83d6-a67b5f33d341.png)
+pip install -r requirements.txt
+```
 
-### 
+To show posters, copy `.env.example` to `.env` and set your key (you can get one from your account settings on [themoviedb.org](https://www.themoviedb.org/settings/api)):
 
-## After Recommendations :
+```
+TMDB_API_KEY=your_tmdb_api_key_here
+```
 
-![image](https://user-images.githubusercontent.com/90556877/189071544-4adf599f-a0c9-4796-813c-ce0ceb675512.png)
+Run the app:
+
+```bash
+streamlit run app.py
+```
+
+To run the notebook, install Jupyter (`pip install notebook`) and open `Movie Recommendation System .ipynb`. Running it end to end recreates the three pickle files.
+
+## Dataset
+
+[TMDB 5000 Movie Dataset](https://www.kaggle.com/datasets/tmdb/tmdb-movie-metadata) from Kaggle (`tmdb_5000_movies.csv` and `tmdb_5000_credits.csv`). The credits file is kept zipped in this repo because of its size; pandas reads the zip directly.
+
+## License
+
+This project is licensed under the MIT License. See [LICENSE](LICENSE).
