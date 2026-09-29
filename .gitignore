@@ -127,3 +127,12 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# Created by the notebook, too large for GitHub
+similarity.pkl
+
+# Editors and OS files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
